@@ -10,11 +10,8 @@ const firebaseConfig = {
   measurementId: "G-8QTJS22X97"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 // Make Firestore available globally
 window.db = firebase.firestore();
-
-import { getFirestore } from "firebase/firestore";
-const db = getFirestore(app);
-export { db };

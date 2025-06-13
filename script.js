@@ -1,8 +1,7 @@
 // script.js
-// Define db globally
-let db;
-firebase.initializeApp(firebaseConfig);
-db = firebase.firestore();
+
+// db is initialized in firebase-config.js and available as window.db
+// Ensure firebase-config.js is loaded before this script.
 
 function submitSummary() {
   const subject = document.getElementById("subject-select").value;
@@ -10,7 +9,7 @@ function submitSummary() {
 
   if (!summaryText.trim()) return;
 
-  db.collection("summaries").add({
+  window.db.collection("summaries").add({
     subject: subject,
     text: summaryText,
     timestamp: new Date()
@@ -25,7 +24,7 @@ function loadSummaries() {
   const list = document.getElementById("summary-list");
   list.innerHTML = "";
 
-  db.collection("summaries")
+  window.db.collection("summaries")
     .where("subject", "==", subject)
     .orderBy("timestamp", "desc")
     .get()
@@ -42,6 +41,6 @@ function loadSummaries() {
 window.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("summary-list")) {
     document.getElementById("subject-select").addEventListener("change", loadSummaries);
-    loadSummaries();
+    loadSummaries(); // Initial load
   }
 });
