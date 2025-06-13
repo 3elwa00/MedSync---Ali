@@ -1,39 +1,29 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>MedSync MVP</title>
+  <title>MedSync - Home</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Firebase SDKs (v8 for plain HTML/JS use) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 </head>
 <body>
-  <h1>📚 MedSync - Study Notes & Quizzes</h1>
+  <nav>
+    <h1>📚 MedSync</h1>
+    <a href="summaries.html">View Summaries</a>
+  </nav>
 
-  <select id="subject-select">
-    <option value="anatomy">Anatomy</option>
-    <option value="physiology">Physiology</option>
-    <option value="biochem">Biochemistry</option>
-  </select>
-
-  <div>
-    <h2>Topic Summary</h2>
-    <textarea id="summary-input" placeholder="Enter summary here..."></textarea>
-    <button onclick="submitSummary()">Submit</button>
-  </div>
-
-  <div>
-    <h2>Summaries</h2>
-    <ul id="summary-list"></ul>
+  <main>
+    <h2>Add a Summary</h2>
     <select id="subject-select">
-        <option value="anatomy">Anatomy</option>
-        <option value="physiology">Physiology</option>
-        <option value="biochem">Biochemistry</option>
-  </div>
+      <option value="anatomy">Anatomy</option>
+      <option value="physiology">Physiology</option>
+      <option value="biochem">Biochemistry</option>
+    </select>
+    <textarea id="summary-input" placeholder="Write your summary..."></textarea>
+    <button onclick="submitSummary()">Submit</button>
+  </main>
 
-  <!-- Firebase config and logic -->
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
 </body>
