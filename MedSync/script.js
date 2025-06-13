@@ -1,5 +1,7 @@
 // script.js
 
+import { db } from "./firebase-config.js";
+
 function submitSummary() {
   const subject = document.getElementById("subject-select").value;
   const summary = document.getElementById("summary-input").value.trim();
