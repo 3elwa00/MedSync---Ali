@@ -1,55 +1,47 @@
 // script.js
-
-import { db } from "./firebase-config.js";
+// Define db globally
+let db;
+firebase.initializeApp(firebaseConfig);
+db = firebase.firestore();
 
 function submitSummary() {
   const subject = document.getElementById("subject-select").value;
-  const summary = document.getElementById("summary-input").value.trim();
-  if (summary === "") return;
+  const summaryText = document.getElementById("summary-input").value;
+
+  if (!summaryText.trim()) return;
 
   db.collection("summaries").add({
     subject: subject,
-    summary: summary,
+    text: summaryText,
     timestamp: new Date()
   }).then(() => {
+    alert("Summary added!");
     document.getElementById("summary-input").value = "";
-    loadSummaries();
-  }).catch(err => {
-    console.error("Error adding summary:", err);
   });
 }
 
 function loadSummaries() {
   const subject = document.getElementById("subject-select").value;
-  const summaryList = document.getElementById("summary-list");
-  summaryList.innerHTML = "";
-
-  console.log("Loading summaries for subject:", subject);
+  const list = document.getElementById("summary-list");
+  list.innerHTML = "";
 
   db.collection("summaries")
     .where("subject", "==", subject)
     .orderBy("timestamp", "desc")
-    .limit(10)
     .get()
     .then(snapshot => {
-      console.log("Found", snapshot.size, "summaries");
-
-      if (snapshot.empty) {
+      snapshot.forEach(doc => {
         const li = document.createElement("li");
-        li.textContent = "No summaries yet.";
-        summaryList.appendChild(li);
-      } else {
-        snapshot.forEach(doc => {
-          console.log("Doc:", doc.data());
-          const li = document.createElement("li");
-          li.textContent = doc.data().summary;
-          summaryList.appendChild(li);
-        });
-      }
-    }).catch(err => {
-      console.error("Error loading summaries:", err);
+        li.textContent = doc.data().text;
+        list.appendChild(li);
+      });
     });
 }
 
-document.getElementById("subject-select").addEventListener("change", loadSummaries);
-window.onload = loadSummaries;
+// Auto-run on summaries page
+window.addEventListener("DOMContentLoaded", () => {
+  if (document.getElementById("summary-list")) {
+    document.getElementById("subject-select").addEventListener("change", loadSummaries);
+    loadSummaries();
+  }
+});
